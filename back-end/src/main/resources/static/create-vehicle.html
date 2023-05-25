@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cadastro de Veiculo</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css">
 </head>
+
 <body>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
@@ -49,33 +51,33 @@
 
   <div class="container mt-4">
     <h1>Cadastro de Veículo</h1>
-    <form>
+    <form action="/cadastrar/veiculo" method="POST">
       <div class="mb-3">
         <label for="inputModelo" class="form-label">Modelo</label>
-        <input type="text" class="form-control" id="inputModelo" placeholder="Digite o modelo do veículo">
+        <input type="text" class="form-control" id="inputModelo" name="modelo" placeholder="Digite o modelo do veículo">
       </div>
       <div class="mb-3">
         <label for="inputMarca" class="form-label">Marca</label>
-        <input type="text" class="form-control" id="inputMarca" placeholder="Digite a marca do veículo">
+        <input type="text" class="form-control" id="inputMarca" name="marca" placeholder="Digite a marca do veículo">
       </div>
       <div class="mb-3">
         <label for="inputAno" class="form-label">Ano</label>
-        <input type="text" class="form-control" id="inputAno" placeholder="Digite o ano do veículo">
+        <input type="text" class="form-control" id="inputAno" name="ano" placeholder="Digite o ano do veículo">
       </div>
       <div class="mb-3">
         <label for="inputCor" class="form-label">Cor</label>
-        <input type="text" class="form-control" id="inputCor" placeholder="Digite a cor do veículo">
+        <input type="text" class="form-control" id="inputCor" name="cor" placeholder="Digite a cor do veículo">
       </div>
       <div class="mb-3">
         <label for="inputPlaca" class="form-label">Placa</label>
-        <input type="text" class="form-control" id="inputPlaca" placeholder="Digite a placa do veículo">
+        <input type="text" class="form-control" id="inputPlaca" name="placa" placeholder="Digite a placa do veículo">
       </div>
       <div class="mb-3">
         <label for="inputProprietario" class="form-label">Proprietário</label>
-        <input type="text" class="form-control" id="inputProprietario" placeholder="Digite o nome do proprietário">
+        <input type="text" class="form-control" id="inputProprietario" name="proprietario" placeholder="Digite o nome do proprietário">
       </div>
       <div class="mb-3 form-check">
-        <input type="checkbox" class="form-check-input" id="checkMultas">
+        <input type="checkbox" class="form-check-input" id="checkMultas" name="possuiMultas">
         <label class="form-check-label" for="checkMultas">Possui multas?</label>
       </div>
       <div id="multasContainer" class="d-none">
@@ -83,52 +85,53 @@
         <div class="multa">
           <div class="mb-3">
             <label for="inputDataMulta1" class="form-label">Data da Multa</label>
-            <input type="date" class="form-control" id="inputDataMulta1">
+            <input type="date" class="form-control" id="inputDataMulta1" name="dataMulta1">
           </div>
           <div class="mb-3">
             <label for="inputLocalMulta1" class="form-label">Local da Multa</label>
-            <input type="text" class="form-control" id="inputLocalMulta1" placeholder="Digite o local da multa">
+            <input type="text" class="form-control" id="inputLocalMulta1" name="localMulta1" placeholder="Digite o local da multa">
           </div>
           <div class="mb-3">
             <label for="inputValorMulta1" class="form-label">Valor da Multa</label>
-            <input type="text" class="form-control" id="inputValorMulta1" placeholder="Digite o valor da multa">
+            <input type="text" class="form-control" id="inputValorMulta1" name="valorMulta1" placeholder="Digite o valor da multa">
           </div>
           <div class="mb-3">
             <label for="inputDescricaoMulta1" class="form-label">Descrição da Infração</label>
-            <textarea class="form-control" id="inputDescricaoMulta1" placeholder="Digite a descrição da infração"></textarea>
+            <textarea class="form-control" id="inputDescricaoMulta1" name="descricaoMulta1" placeholder="Digite a descrição da infração"></textarea>
           </div>
         </div>
         <button type="button" class="btn btn-secondary mb-3" id="btnAddMulta">Adicionar Multa</button>
-      </div>      
+      </div>
       <button type="submit" class="btn btn-primary">Cadastrar</button>
     </form>
   </div>
-  
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
 
-<script>
-  document.getElementById('checkMultas').addEventListener('change', function() {
-    var multasContainer = document.getElementById('multasContainer');
-    if (this.checked) {
-      multasContainer.classList.remove('d-none');
-    } else {
-      multasContainer.classList.add('d-none');
-    }
-  });
+  <script>
+    document.getElementById('checkMultas').addEventListener('change', function () {
+      var multasContainer = document.getElementById('multasContainer');
+      if (this.checked) {
+        multasContainer.classList.remove('d-none');
+      } else {
+        multasContainer.classList.add('d-none');
+      }
+    });
 
-  document.getElementById('btnAddMulta').addEventListener('click', function() {
-    // Limpar os campos de multa
-    var inputDataMulta = document.getElementById('inputDataMulta1');
-    var inputLocalMulta = document.getElementById('inputLocalMulta1');
-    var inputValorMulta = document.getElementById('inputValorMulta1');
-    var inputDescricaoMulta = document.getElementById('inputDescricaoMulta1');
-    
-    inputDataMulta.value = '';
-    inputLocalMulta.value = '';
-    inputValorMulta.value = '';
-    inputDescricaoMulta.value = '';
-  });
-</script>  
-  
+    document.getElementById('btnAddMulta').addEventListener('click', function () {
+      // Limpar os campos de multa
+      var inputDataMulta = document.getElementById('inputDataMulta1');
+      var inputLocalMulta = document.getElementById('inputLocalMulta1');
+      var inputValorMulta = document.getElementById('inputValorMulta1');
+      var inputDescricaoMulta = document.getElementById('inputDescricaoMulta1');
+
+      inputDataMulta.value = '';
+      inputLocalMulta.value = '';
+      inputValorMulta.value = '';
+      inputDescricaoMulta.value = '';
+    });
+  </script>
+
 </body>
+
 </html>

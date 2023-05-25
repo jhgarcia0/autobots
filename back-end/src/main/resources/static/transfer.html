@@ -49,18 +49,18 @@
 
   <div class="container mt-4">
     <h1>Transferência de Veículo</h1>
-    <form>
+    <form id="formTransferenciaVeiculo" method="POST" action="/transferencia-veiculo">
       <div class="mb-3">
         <label for="inputPlaca" class="form-label">Placa do Veículo</label>
-        <input type="text" class="form-control" id="inputPlaca" placeholder="Digite a placa do veículo">
+        <input type="text" class="form-control" id="inputPlaca" name="inputPlaca" placeholder="Digite a placa do veículo">
       </div>
       <div class="mb-3">
         <label for="inputNovoProprietario" class="form-label">Novo Proprietário</label>
-        <input type="text" class="form-control" id="inputNovoProprietario" placeholder="Digite o nome do novo proprietário">
+        <input type="text" class="form-control" id="inputNovoProprietario" name="inputNovoProprietario" placeholder="Digite o nome do novo proprietário">
       </div>
       <div class="mb-3">
         <label for="inputCPF" class="form-label">CPF do Novo Proprietário</label>
-        <input type="text" class="form-control" id="inputCPF" placeholder="Digite o CPF do novo proprietário">
+        <input type="text" class="form-control" id="inputCPF" name="inputCPF" placeholder="Digite o CPF do novo proprietário">
       </div>
       <button type="submit" class="btn btn-primary">Transferir Veículo</button>
     </form>
