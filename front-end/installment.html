@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Parcelamento</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+          <a class="navbar-brand" href="#">Sistema de Gestão Veicular</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item">
+                <a class="nav-link" href="index.html">Página Inicial</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="cadastroDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Cadastros
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="cadastroDropdown">
+                  <li><a class="dropdown-item" href="create-CNH.html">Cadastro de CNH</a></li>
+                  <li><a class="dropdown-item" href="create-vehicle.html">Cadastro de Veículos</a></li>
+                </ul>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="query-fines.html">Consulta de Multas</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="payment.html">Pagamento On-Line</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">IPVA</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="installment.html">Parcelamento</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="transfer.html">Transferência de Veículo</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+  <div class="container mt-4">
+    <h1>Parcelamento</h1>
+
+    <h2>Parcelamento de Multas</h2>
+    <form id="formParcelamentoMultas">
+      <div class="mb-3">
+        <label for="inputValorMultas" class="form-label">Valor Total das Multas</label>
+        <input type="number" class="form-control" id="inputValorMultas" placeholder="Digite o valor total das multas">
+      </div>
+      <div class="mb-3">
+        <label for="inputParcelasMultas" class="form-label">Número de Parcelas</label>
+        <input type="number" class="form-control" id="inputParcelasMultas" placeholder="Digite o número de parcelas">
+      </div>
+      <div class="mb-3">
+        <label for="selectFrequenciaMultas" class="form-label">Frequência de Pagamento</label>
+        <select class="form-select" id="selectFrequenciaMultas">
+          <option value="mensal">Mensal</option>
+          <option value="trimestral">Trimestral</option>
+          <option value="semestral">Semestral</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary">Calcular Parcelas</button>
+    </form>
+
+    <div id="parcelasMultas" style="display: none;">
+      <h3>Parcelas das Multas</h3>
+      <div id="parcelasMultasList"></div>
+    </div>
+
+    <h2>Parcelamento do IPVA</h2>
+    <form id="formParcelamentoIPVA">
+      <div class="mb-3">
+        <label for="inputValorIPVA" class="form-label">Valor Total do IPVA</label>
+        <input type="number" class="form-control" id="inputValorIPVA" placeholder="Digite o valor total do IPVA">
+      </div>
+      <div class="mb-3">
+        <label for="inputParcelasIPVA" class="form-label">Número de Parcelas</label>
+        <input type="number" class="form-control" id="inputParcelasIPVA" placeholder="Digite o número de parcelas">
+      </div>
+      <div class="mb-3">
+        <label for="selectFrequenciaIPVA" class="form-label">Frequência de Pagamento</label>
+        <select class="form-select" id="selectFrequenciaIPVA">
+          <option value="mensal">Mensal</option>
+          <option value="trimestral">Trimestral</option>
+          <option value="semestral">Semestral</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary">Calcular Parcelas</button>
+    </form>
+
+    <div id="parcelasIPVA" style="display: none;">
+      <h3>Parcelas do IPVA</h3>
+      <div id="parcelasIPVAList"></div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    document.getElementById('formParcelamentoMultas').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const valorMultas = parseFloat(document.getElementById('inputValorMultas').value);
+      const parcelasMultas = parseInt(document.getElementById('inputParcelasMultas').value);
+      const frequenciaMultas = document.getElementById('selectFrequenciaMultas').value;
+      
+      const valorParcelaMultas = valorMultas / parcelasMultas;
+      
+      const parcelasMultasList = document.getElementById('parcelasMultasList');
+      parcelasMultasList.innerHTML = '';
+      
+      for (let i = 1; i <= parcelasMultas; i++) {
+        const divParcela = document.createElement('div');
+        divParcela.classList.add('mb-3');
+        divParcela.innerHTML = `
+          <label>Parcela ${i}</label>
+          <p>Valor: R$ ${valorParcelaMultas.toFixed(2)}</p>
+          <p>Prazo de Pagamento: ${calcularPrazoPagamento(i, frequenciaMultas)}</p>
+          <hr>
+        `;
+        
+        parcelasMultasList.appendChild(divParcela);
+      }
+      
+      document.getElementById('parcelasMultas').style.display = 'block';
+    });
+    
+    document.getElementById('formParcelamentoIPVA').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const valorIPVA = parseFloat(document.getElementById('inputValorIPVA').value);
+      const parcelasIPVA = parseInt(document.getElementById('inputParcelasIPVA').value);
+      const frequenciaIPVA = document.getElementById('selectFrequenciaIPVA').value;
+      
+      const valorParcelaIPVA = valorIPVA / parcelasIPVA;
+      
+      const parcelasIPVAList = document.getElementById('parcelasIPVAList');
+      parcelasIPVAList.innerHTML = '';
+      
+      for (let i = 1; i <= parcelasIPVA; i++) {
+        const divParcela = document.createElement('div');
+        divParcela.classList.add('mb-3');
+        divParcela.innerHTML = `
+          <label>Parcela ${i}</label>
+          <p>Valor: R$ ${valorParcelaIPVA.toFixed(2)}</p>
+          <p>Prazo de Pagamento: ${calcularPrazoPagamento(i, frequenciaIPVA)}</p>
+          <hr>
+        `;
+        
+        parcelasIPVAList.appendChild(divParcela);
+      }
+      
+      document.getElementById('parcelasIPVA').style.display = 'block';
+    });
+    
+    function calcularPrazoPagamento(parcela, frequencia) {
+      const prazoPagamento = {
+        mensal: 30,
+        trimestral: 90,
+        semestral: 180
+      };
+      
+      const prazoDias = parcela * prazoPagamento[frequencia];
+      
+      const dataVencimento = new Date();
+      dataVencimento.setDate(dataVencimento.getDate() + prazoDias);
+      
+      return dataVencimento.toLocaleDateString('pt-BR');
+    }
+  </script>
+</body>
+</html>

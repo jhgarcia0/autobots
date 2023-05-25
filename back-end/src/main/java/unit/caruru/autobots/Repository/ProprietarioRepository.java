@@ -3,8 +3,8 @@ import org.springframework.stereotype.Repository;
 import unit.caruru.autobots.Model.Proprietario;
 
 @Repository
-public class ClientesRepository {
-    public void inserirCliente(Proprietario cliente){
+public class ProprietarioRepository {
+    public void inserirProprietario(Proprietario cliente){
         //Acessa o db e salva o cliente
     }
 }

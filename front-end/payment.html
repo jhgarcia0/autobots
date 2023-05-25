@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pagamento On-Line</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+          <a class="navbar-brand" href="#">Sistema de Gestão Veicular</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item">
+                <a class="nav-link" href="index.html">Página Inicial</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="cadastroDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Cadastros
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="cadastroDropdown">
+                  <li><a class="dropdown-item" href="create-CNH.html">Cadastro de CNH</a></li>
+                  <li><a class="dropdown-item" href="create-vehicle.html">Cadastro de Veículos</a></li>
+                </ul>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="query-fines.html">Consulta de Multas</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="payment.html">Pagamento On-Line</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">IPVA</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="installment.html">Parcelamento</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="transfer.html">Transferência de Veículo</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+  <div class="container mt-4">
+    <h1>Pagamento On-Line</h1>
+    
+    <!-- Parte 1: Consulta de Multas Pendentes -->
+    <div id="consultaMultas">
+      <h2>Consulta de Multas Pendentes</h2>
+      <form id="formConsultaMultas">
+        <div class="mb-3">
+          <label for="inputPlaca" class="form-label">Número da Placa</label>
+          <input type="text" class="form-control" id="inputPlaca" placeholder="Digite o número da placa">
+        </div>
+        <button type="submit" class="btn btn-primary">Consultar</button>
+      </form>
+      
+      <div id="multasPendentes" style="display: none;">
+        <h3>Multas Pendentes</h3>
+        <div id="multasList"></div>
+        <button type="button" class="btn btn-success" id="btnPagarMultas">Pagar Multas Selecionadas</button>
+      </div>
+    </div>
+
+    <!-- Parte 2: Página de Pagamento -->
+    <div id="paginaPagamento" style="display: none;">
+      <h2>Pagamento de Multas</h2>
+      <div id="multasSelecionadas"></div>
+      <h3>Opções de Pagamento</h3>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="opcaoPagamento" id="opcaoCartao" value="cartao" checked>
+        <label class="form-check-label" for="opcaoCartao">
+          Cartão de Crédito
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="opcaoPagamento" id="opcaoBoleto" value="boleto">
+        <label class="form-check-label" for="opcaoBoleto">
+          Boleto Bancário
+        </label>
+      </div>
+      <button type="button" class="btn btn-primary" id="btnRealizarPagamento">Realizar Pagamento</button>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Parte 1: Consulta de Multas Pendentes
+    document.getElementById('formConsultaMultas').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      // Simulação de consulta de multas pendentes
+      const placa = document.getElementById('inputPlaca').value;
+      const multasPendentes = buscarMultasPendentes(placa);
+      
+      if (multasPendentes.length > 0) {
+        // Exibir as multas pendentes
+        const multasList = document.getElementById('multasList');
+        multasList.innerHTML = '';
+        
+        multasPendentes.forEach(function(multa) {
+          const divMulta = document.createElement('div');
+          divMulta.classList.add('mb-3');
+          divMulta.innerHTML = `
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" name="multaSelecionada" value="${multa.id}">
+              <label class="form-check-label">${multa.descricao}</label>
+            </div>
+          `;
+          
+          multasList.appendChild(divMulta);
+        });
+        
+        // Exibir o formulário de pagamento
+        document.getElementById('multasPendentes').style.display = 'block';
+      } else {
+        // Nenhuma multa encontrada
+        document.getElementById('multasPendentes').style.display = 'none';
+        alert('Nenhuma multa pendente encontrada.');
+      }
+    });
+    
+    // Parte 2: Página de Pagamento
+    document.getElementById('btnPagarMultas').addEventListener('click', function() {
+      const multasSelecionadas = Array.from(document.querySelectorAll('input[name="multaSelecionada"]:checked'))
+        .map(function(input) {
+          return input.value;
+        });
+      
+      if (multasSelecionadas.length > 0) {
+        // Exibir as multas selecionadas na página de pagamento
+        const multasSelecionadasContainer = document.getElementById('multasSelecionadas');
+        multasSelecionadasContainer.innerHTML = '';
+        
+        multasSelecionadas.forEach(function(idMulta) {
+          const divMulta = document.createElement('div');
+          divMulta.classList.add('mb-3');
+          divMulta.innerHTML = `
+            <input type="hidden" name="multaSelecionada" value="${idMulta}">
+            <label>Multa ${idMulta}</label>
+            <!-- Adicione aqui as informações relevantes da multa -->
+            <hr>
+          `;
+          
+          multasSelecionadasContainer.appendChild(divMulta);
+        });
+        
+        // Exibir a página de pagamento
+        document.getElementById('consultaMultas').style.display = 'none';
+        document.getElementById('paginaPagamento').style.display = 'block';
+      } else {
+        // Nenhuma multa selecionada
+        alert('Selecione pelo menos uma multa para pagamento.');
+      }
+    });
+    
+    function buscarMultasPendentes(placa) {
+      // Simulação de consulta de multas pendentes
+      const multasPendentes = [
+        { id: 1, descricao: 'Multa 1', valor: 100.0 },
+        { id: 2, descricao: 'Multa 2', valor: 150.0 },
+        { id: 3, descricao: 'Multa 3', valor: 200.0 }
+      ];
+      
+      return multasPendentes;
+    }
+  </script>
+</body>
+</html>
