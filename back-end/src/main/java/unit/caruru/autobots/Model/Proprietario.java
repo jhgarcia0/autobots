@@ -6,16 +6,16 @@ public class Proprietario {
     private String nome;
     private String cpf;
     private String categoria;
-    private LocalDate validade;
-    public Proprietario(String nome, String cpf, String categoria, LocalDate validade){
+    private String validade;
+    public Proprietario(String nome, String cpf, String categoria, String validade){
         this.nome = nome;
         this.cpf = cpf;
         this.categoria = categoria;
         this.validade = validade;
     }
-    public LocalDate getValidade() {return validade;}
+    public String getValidade() {return validade;}
 
-    public void setValidade(LocalDate validade) {this.validade = validade;}
+    public void setValidade(String validade) {this.validade = validade;}
 
     public String getCpf() {
         return cpf;
