@@ -53,10 +53,10 @@
     <!-- Parte 1: Consulta de Multas Pendentes -->
     <div id="consultaMultas">
       <h2>Consulta de Multas Pendentes</h2>
-      <form id="formConsultaMultas">
+      <form id="formConsultaMultas" method="POST" action="/realizar-pagamento">
         <div class="mb-3">
           <label for="inputPlaca" class="form-label">Número da Placa</label>
-          <input type="text" class="form-control" id="inputPlaca" placeholder="Digite o número da placa">
+          <input type="text" class="form-control" id="inputPlaca" name="placa" placeholder="Digite o número da placa">
         </div>
         <button type="submit" class="btn btn-primary">Consultar</button>
       </form>
@@ -138,15 +138,10 @@
         const multasSelecionadasContainer = document.getElementById('multasSelecionadas');
         multasSelecionadasContainer.innerHTML = '';
         
-        multasSelecionadas.forEach(function(idMulta) {
+        multasSelecionadas.forEach(function(multaId) {
           const divMulta = document.createElement('div');
           divMulta.classList.add('mb-3');
-          divMulta.innerHTML = `
-            <input type="hidden" name="multaSelecionada" value="${idMulta}">
-            <label>Multa ${idMulta}</label>
-            <!-- Adicione aqui as informações relevantes da multa -->
-            <hr>
-          `;
+          divMulta.innerText = multaId;
           
           multasSelecionadasContainer.appendChild(divMulta);
         });
@@ -160,15 +155,35 @@
       }
     });
     
+    document.getElementById('btnRealizarPagamento').addEventListener('click', function() {
+      const opcaoPagamento = document.querySelector('input[name="opcaoPagamento"]:checked').value;
+      
+      // Simulação de processamento de pagamento
+      const multasSelecionadas = Array.from(document.querySelectorAll('input[name="multaSelecionada"]:checked'))
+        .map(function(input) {
+          return input.value;
+        });
+      
+      if (multasSelecionadas.length > 0) {
+        alert(`Pagamento realizado com sucesso (${opcaoPagamento}).`);
+        
+        // Redirecionar para a página de consulta de multas
+        window.location.href = 'query-fines.html';
+      } else {
+        alert('Nenhuma multa selecionada.');
+      }
+    });
+    
+    // Simulação de consulta de multas pendentes
     function buscarMultasPendentes(placa) {
-      // Simulação de consulta de multas pendentes
-      const multasPendentes = [
-        { id: 1, descricao: 'Multa 1', valor: 100.0 },
-        { id: 2, descricao: 'Multa 2', valor: 150.0 },
-        { id: 3, descricao: 'Multa 3', valor: 200.0 }
+      const multas = [
+        { id: 1, descricao: 'Multa de trânsito 1' },
+        { id: 2, descricao: 'Multa de trânsito 2' },
+        { id: 3, descricao: 'Multa de trânsito 3' },
       ];
       
-      return multasPendentes;
+      // Simulação de busca de multas pendentes por placa
+      return multas;
     }
   </script>
 </body>
