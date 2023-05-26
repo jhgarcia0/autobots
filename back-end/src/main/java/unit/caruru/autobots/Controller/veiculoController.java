@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import unit.caruru.autobots.Excecoes.VeiculoNotFoundException;
+import unit.caruru.autobots.Model.Multa;
 import unit.caruru.autobots.Model.Proprietario;
 import unit.caruru.autobots.Model.Veiculo;
 
@@ -25,9 +27,10 @@ public class veiculoController {
                                  @RequestParam(name = "marca") String marca,
                                  @RequestParam(name = "cor") String cor,
                                  @RequestParam(name = "cpf") String cpf,
-                                 @RequestParam(name = "ano") int ano){
+                                 @RequestParam(name = "ano") int ano,
+                                 @RequestParam(name = "multas") List<Multa> multas){
         Proprietario proprietario = cnhController.getCnhByCpf(cpf);
-        Veiculo veiculo = new Veiculo(placa, modelo, marca, cor, proprietario, ano);
+        Veiculo veiculo = new Veiculo(placa, modelo, marca, cor, proprietario, ano, multas);
         veiculos.add(veiculo);
     }
 
@@ -45,20 +48,42 @@ public class veiculoController {
                 return veiculos.get(i);
             }
         }
-        return new Veiculo("placa","erro","erro","erro",null,0);
+        return new Veiculo("placa","erro","erro","erro",null,0, null);
     }
 
     private Veiculo getVeiculoByCpf(String cpf) {
         for(int i = 0; i < veiculos.size(); i++){
-            System.out.println(veiculos.get(i).getProprietario().getCpf());
-            System.out.println(cpf);
             if (veiculos.get(i).getProprietario().getCpf().equals(cpf)){
                 return veiculos.get(i);
             }
         }
-        return new Veiculo("cpf","erro","erro","erro",null,0);
+        return new Veiculo("cpf","erro","erro","erro",null,0, null);
+    }
+    @GetMapping("multas/{identificador}")
+    private List<Multa> getMultas(@PathVariable String identificador) throws VeiculoNotFoundException{
+        if(identificador.length() == 11){
+            return getMultasByCpf(identificador);
+        }
+        return getMultasByPlaca(identificador);
     }
 
+    private List<Multa> getMultasByCpf(String cpf) throws VeiculoNotFoundException{
+        for (int i = 0; i<veiculos.size(); i++){
+            if(veiculos.get(i).getProprietario().getCpf().equals(cpf)){
+                return veiculos.get(i).getMultas();
+            }
+        }
+        throw new VeiculoNotFoundException("Veiculo não foi encontrado. Identificador: "+cpf);
+    }
+
+    private List<Multa> getMultasByPlaca(String placa) throws VeiculoNotFoundException {
+        for (int i = 0; i<veiculos.size(); i++){
+            if(veiculos.get(i).getPlaca().equals(placa)){
+                return veiculos.get(i).getMultas();
+            }
+        }
+        throw new VeiculoNotFoundException("Veiculo não foi encontrado. Identificador: "+placa);
+    }
     @GetMapping("veiculos")
     private List<Veiculo> todosOsVeiculos(){
         return veiculos;
