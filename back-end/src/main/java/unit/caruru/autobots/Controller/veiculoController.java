@@ -3,7 +3,9 @@ package unit.caruru.autobots.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import unit.caruru.autobots.Model.Proprietario;
 import unit.caruru.autobots.Model.Veiculo;
@@ -16,7 +18,8 @@ public class veiculoController {
     public List<Veiculo> veiculos = new ArrayList<>();
     @Autowired
     private ProprietarioController cnhController;
-    @GetMapping("/cadastrar/veiculo")
+    @PostMapping("/cadastrar/veiculo")
+    @ResponseBody
     public void cadastrarVeiculo(@RequestParam(name = "placa") String placa,
                                  @RequestParam(name = "modelo") String modelo,
                                  @RequestParam(name = "marca") String marca,
