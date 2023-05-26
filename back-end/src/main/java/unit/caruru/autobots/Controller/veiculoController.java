@@ -29,6 +29,14 @@ public class veiculoController {
                                  @RequestParam(name = "cpf") String cpf,
                                  @RequestParam(name = "ano") int ano,
                                  @RequestParam(name = "multas") List<Multa> multas){
+        System.out.println("Lista de mutlas:");
+        System.out.println(multas);
+        System.out.println("Cada multa individualmente:");
+        for (Multa multa: multas){
+            System.out.println("data: "+multa.getData());
+            System.out.println("valor: "+ multa.getValor());
+            System.out.println("descricao: " +multa.getDescricao());
+        }
         Proprietario proprietario = cnhController.getCnhByCpf(cpf);
         Veiculo veiculo = new Veiculo(placa, modelo, marca, cor, proprietario, ano, multas);
         veiculos.add(veiculo);
