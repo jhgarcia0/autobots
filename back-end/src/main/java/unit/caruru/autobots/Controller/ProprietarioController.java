@@ -12,22 +12,28 @@ import java.util.Objects;
 @RestController
 public class ProprietarioController {
     private List<Proprietario> proprietarios = new ArrayList<>();
+
     @PostMapping("/cadastrar/cnh")
-    @ResponseBody
-    private void inserirCnh(@RequestParam(name="nome") String nome, @RequestParam(name="cpf") String cpf,
-                            @RequestParam(name="categoria")String categoria, @RequestParam(name="validade") String validade){
+    public void inserirCnh(@RequestParam(name = "nome") String nome, @RequestParam(name = "cpf") String cpf,
+                           @RequestParam(name = "categoria") String categoria, @RequestParam(name = "validade") String validade) {
         Proprietario pessoa = new Proprietario(nome, cpf, categoria, validade);
         proprietarios.add(pessoa);
         System.out.println(pessoa);
     }
 
     @GetMapping("/cnh/{cpf}")
-    public Proprietario getCnhByCpf(@PathVariable("cpf") String cpf){
-        for (int i=0; i<proprietarios.size(); i++) {
-            if (Objects.equals(proprietarios.get(i).getCpf(), cpf)){
-                return proprietarios.get(i);
+    public Proprietario getCnhByCpf(@PathVariable("cpf") String cpf) {
+        for (Proprietario proprietario : proprietarios) {
+            if (Objects.equals(proprietario.getCpf(), cpf)) {
+                return proprietario;
             }
         }
-        return new Proprietario("errado","errado","errado",null);
+        return null;
+    }
+
+    @GetMapping("/cnh")
+    public List<Proprietario> getAllCnh() {
+        return proprietarios;
     }
 }
+

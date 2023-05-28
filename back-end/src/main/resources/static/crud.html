@@ -70,16 +70,128 @@
       <thead>
         <tr>
           <th>Modelo</th>
-          <th>Marca</th>
           <th>Placa</th>
           <th>Ações</th>
         </tr>
       </thead>
-      <tbody id="veiculoTableBody">
-        <!-- Os registros de Veículo serão adicionados aqui -->
+      <tbody id="vehicleTableBody">
+        <!-- Os registros de veículos serão adicionados aqui -->
       </tbody>
     </table>
   </div>
+
+  <script>
+    // Função para exibir os dados da ArrayList de proprietários na tabela de CNH
+function exibirProprietarios() {
+  fetch('/cnh') // Rota para obter os dados da ArrayList de proprietários
+    .then(response => response.json())
+    .then(data => {
+      const tableBody = document.getElementById('cnhTableBody');
+      tableBody.innerHTML = ''; // Limpar a tabela antes de exibir os dados
+
+      data.forEach(proprietario => {
+        const row = document.createElement('tr');
+
+        const nomeCell = document.createElement('td');
+        nomeCell.textContent = proprietario.nome;
+        row.appendChild(nomeCell);
+
+        const cpfCell = document.createElement('td');
+        cpfCell.textContent = proprietario.cpf;
+        row.appendChild(cpfCell);
+
+        const actionsCell = document.createElement('td');
+
+        // Botão Editar
+        const editButton = document.createElement('button');
+        editButton.textContent = 'Editar';
+        editButton.classList.add('btn', 'btn-primary', 'me-2');
+        editButton.addEventListener('click', () => editarProprietario(proprietario.cpf));
+        actionsCell.appendChild(editButton);
+
+        // Botão Excluir
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Excluir';
+        deleteButton.classList.add('btn', 'btn-danger');
+        deleteButton.addEventListener('click', () => excluirProprietario(proprietario.cpf));
+        actionsCell.appendChild(deleteButton);
+
+        row.appendChild(actionsCell);
+
+        tableBody.appendChild(row);
+      });
+    });
+}
+
+    // Função para excluir um proprietário da ArrayList
+    function excluirProprietario(cpf) {
+      fetch(`/cnh/${cpf}`, { method: 'DELETE' }) // Rota para excluir um proprietário
+        .then(() => {
+          exibirProprietarios(); // Atualizar a tabela após a exclusão
+        });
+    }
+    function editarProprietario(cpf) {
+  // Aqui você pode adicionar a lógica para editar o proprietário. Faça ele ir para pagina de cadastrar com os dados dentro.
+    console.log(`Editar proprietário com CPF: ${cpf}`);
+}
+
+    // Chamar a função para exibir os dados da ArrayList de proprietários/veiculos quando a página for carregada
+    document.addEventListener('DOMContentLoaded', function() {
+      exibirProprietarios();
+      exibirVeiculos();
+    });
+function exibirVeiculos() {
+  fetch('/veiculos') // Rota para obter os dados da ArrayList de veiculo
+    .then(response => response.json())
+    .then(data => {
+      const tableBody = document.getElementById('vehicleTableBody');
+      tableBody.innerHTML = ''; // Limpar a tabela antes de exibir os dados
+
+      data.forEach(veiculo => {
+        const row = document.createElement('tr');
+
+        const modeloCell = document.createElement('td');
+        modeloCell.textContent = veiculo.modelo;
+        row.appendChild(modeloCell);
+
+        const placaCell = document.createElement('td');
+        placaCell.textContent = veiculo.placa;
+        row.appendChild(placaCell);
+
+        const actionsCell = document.createElement('td');
+
+        // Botão Editar
+        const editButton = document.createElement('button');
+        editButton.textContent = 'Editar';
+        editButton.classList.add('btn', 'btn-primary', 'me-2');
+        editButton.addEventListener('click', () => editarProprietario(proprietario.cpf));
+        actionsCell.appendChild(editButton);
+
+        // Botão Excluir
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Excluir';
+        deleteButton.classList.add('btn', 'btn-danger');
+        deleteButton.addEventListener('click', () => excluirProprietario(proprietario.cpf));
+        actionsCell.appendChild(deleteButton);
+
+        row.appendChild(actionsCell);
+
+        tableBody.appendChild(row);
+      });
+    });
+}
+   // Função para excluir um Veiculo da ArrayList
+function excluirVeiculo(placa) {
+      fetch(`/veiculo/${placa}`, { method: 'DELETE' }) // Rota para excluir um veiculo
+        .then(() => {
+          exibirVeiculos(); // Atualizar a tabela após a exclusão
+        });
+    }
+function editarVeiculo(placa) {
+  // Aqui adicionar a lógica para editar o veiculo. Faça ele ir para pagina de cadastrar com os dados dentro.
+    console.log(`Editar veiculo com placa: ${placa}`);
+}
+  </script>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>

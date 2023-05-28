@@ -59,7 +59,7 @@ public class veiculoController {
         return new Veiculo("cpf","erro","erro","erro",null,0);
     }
 
-    @GetMapping("veiculos")
+    @GetMapping("/veiculos")
     private List<Veiculo> todosOsVeiculos(){
         return veiculos;
     }
