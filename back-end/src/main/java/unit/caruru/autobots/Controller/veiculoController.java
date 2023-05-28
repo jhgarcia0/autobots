@@ -31,7 +31,7 @@ public class veiculoController {
                                  @RequestParam(name = "ano") int ano,
                                  @RequestParam(name = "multas") List<Multa> multas) throws ProprietarioNotFoundException{
         Proprietario proprietario = cnhController.getCnhByCpf(cpf);
-        Veiculo veiculo = new Veiculo(placa, modelo, marca, cor, proprietario, ano, multas);
+        Veiculo veiculo = new Veiculo(placa, modelo, marca, cor, proprietario, ano);
         veiculos.add(veiculo);
     }
 
