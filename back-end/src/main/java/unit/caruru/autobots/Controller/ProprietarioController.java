@@ -17,7 +17,6 @@ public class ProprietarioController {
                            @RequestParam(name = "categoria") String categoria, @RequestParam(name = "validade") String validade) {
         Proprietario pessoa = new Proprietario(nome, cpf, categoria, validade);
         proprietarios.add(pessoa);
-        System.out.println(pessoa);
     }
 
     @GetMapping("/cnh/{cpf}")

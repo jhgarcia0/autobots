@@ -31,10 +31,14 @@ public class veiculoController {
                                  @RequestParam(name = "ano") int ano,
                                  @RequestParam(name = "multas") List<Multa> multas) throws ProprietarioNotFoundException{
         Proprietario proprietario = cnhController.getCnhByCpf(cpf);
-        Veiculo veiculo = new Veiculo(placa, modelo, marca, cor, proprietario, ano);
+        Veiculo veiculo;
+        if(multas != null){
+            veiculo = new Veiculo(placa, modelo, marca, cor, proprietario, ano, multas);
+        }else{
+            veiculo = new Veiculo(placa, modelo, marca, cor, proprietario, ano);
+        }
         veiculos.add(veiculo);
     }
-
     @GetMapping("/veiculo/{identificador}")
     public Veiculo getVeiculo(@PathVariable String identificador) throws VeiculoNotFoundException{
         if(identificador.length() == 11){

@@ -1,5 +1,7 @@
 package unit.caruru.autobots.Model;
 
+import java.util.List;
+
 public class Veiculo {
     private String placa;
     private String modelo;
@@ -7,7 +9,17 @@ public class Veiculo {
     private String cor;
     private Proprietario proprietario;
     private int ano;
+    private List<Multa> multas;
 
+    public Veiculo(String placa, String modelo, String marca, String cor, Proprietario proprietario, int ano, List<Multa> multas) {
+        this.placa = placa;
+        this.modelo = modelo;
+        this.marca = marca;
+        this.cor = cor;
+        this.proprietario = proprietario;
+        this.ano = ano;
+        this.multas = multas;
+    }
     public Veiculo(String placa, String modelo, String marca, String cor, Proprietario proprietario, int ano) {
         this.placa = placa;
         this.modelo = modelo;
@@ -42,4 +54,6 @@ public class Veiculo {
     public void setAno(int ano) {
         this.ano = ano;
     }
+    public List<Multa> getMultas() {return multas;}
+    public void setMultas(List<Multa> multas) {this.multas = multas;}
 }
