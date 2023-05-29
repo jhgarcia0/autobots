@@ -28,15 +28,9 @@ public class veiculoController {
                                  @RequestParam(name = "marca") String marca,
                                  @RequestParam(name = "cor") String cor,
                                  @RequestParam(name = "cpf") String cpf,
-                                 @RequestParam(name = "ano") int ano,
-                                 @RequestParam(name = "multas") List<Multa> multas) throws ProprietarioNotFoundException{
+                                 @RequestParam(name = "ano") int ano) throws ProprietarioNotFoundException{
         Proprietario proprietario = cnhController.getCnhByCpf(cpf);
-        Veiculo veiculo;
-        if(multas != null){
-            veiculo = new Veiculo(placa, modelo, marca, cor, proprietario, ano, multas);
-        }else{
-            veiculo = new Veiculo(placa, modelo, marca, cor, proprietario, ano);
-        }
+        Veiculo veiculo = new Veiculo(placa, modelo, marca, cor, proprietario, ano);
         veiculos.add(veiculo);
     }
     @GetMapping("/veiculo/{identificador}")
@@ -114,7 +108,7 @@ public class veiculoController {
         return 1;
     }
     @PostMapping("/editar/veiculo")
-    public void editarVeiculo(@RequestParam String identificador,
+    public void editarVeiculo(@RequestParam(name="identificador") String identificador,
                               @RequestParam(name = "placa") String placa,
                               @RequestParam(name = "modelo") String modelo,
                               @RequestParam(name = "marca") String marca,
@@ -123,7 +117,28 @@ public class veiculoController {
                               @RequestParam(name = "ano") int ano,
                               @RequestParam(name = "multas") List<Multa> multas) throws ProprietarioNotFoundException {
         excluirVeiculo(identificador);
-        cadastrarVeiculo(placa,modelo,marca,cor,cpf,ano,multas);
+        cadastrarVeiculo(placa,modelo,marca,cor,cpf,ano);
+        cadastrarMultas(identificador, multas);
+
     }
 
+    @PostMapping("cadastrar/multa")
+    public int cadastrarMultas(@RequestParam(name="identificador") String identificador,
+                               @RequestParam(name="multas") List<Multa> multas){
+        try{
+            Veiculo veiculo = getVeiculo(identificador);
+            List<Multa> multas_antigo = veiculo.getMultas();
+            if (multas_antigo.isEmpty()){
+                veiculo.setMultas(multas);
+                return 0;
+            }
+            for(Multa multa: multas){
+                multas_antigo.add(multa);
+            }
+            veiculo.setMultas(multas_antigo);
+            return 0;
+        }catch(VeiculoNotFoundException err){
+            return 1;
+        }
+    }
 }

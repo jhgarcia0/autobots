@@ -3,7 +3,7 @@ import java.text.NumberFormat;
 import java.time.LocalDate;
 
 public class Multa {
-    LocalDate data;
+    String data;
     String local;
     Long valor;
     String descricao;
@@ -11,11 +11,11 @@ public class Multa {
         NumberFormat formatoReal = NumberFormat.getCurrencyInstance();
         return formatoReal.format(this.valor);
     }
-    public LocalDate getData() {
+    public String getData() {
         return data;
     }
 
-    public void setData(LocalDate data) {
+    public void setData(String data) {
         this.data = data;
     }
 
