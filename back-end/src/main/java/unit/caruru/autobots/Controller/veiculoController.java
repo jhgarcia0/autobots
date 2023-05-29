@@ -23,6 +23,8 @@ public class veiculoController {
     public List<Veiculo> veiculos = new ArrayList<>();
     @Autowired
     private ProprietarioController cnhController;
+
+    private final RedirectView redirectView = new RedirectView();
     @PostMapping("/cadastrar/veiculo")
     @ResponseBody
     public RedirectView cadastrarVeiculo(@RequestParam(name = "placa") String placa,
@@ -34,7 +36,7 @@ public class veiculoController {
         Proprietario proprietario = cnhController.getCnhByCpf(cpf);
         Veiculo veiculo = new Veiculo(placa, modelo, marca, cor, proprietario, ano);
         veiculos.add(veiculo);
-        RedirectView redirectView = new RedirectView();
+
         redirectView.setUrl("/create-vehicle.html");
         return redirectView;
     }
