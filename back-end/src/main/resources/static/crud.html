@@ -56,7 +56,9 @@
       <thead>
         <tr>
           <th>Nome</th>
-          <th>Número</th>
+          <th>CPF</th>
+          <th>Categoria</th>
+          <th>Validade CNH</th>
           <th>Ações</th>
         </tr>
       </thead>
@@ -72,6 +74,10 @@
         <tr>
           <th>Modelo</th>
           <th>Placa</th>
+          <th>Marca</th>
+          <th>Cor</th>
+          <th>Proprietário</th>
+          <th>Ano</th>
           <th>Ações</th>
         </tr>
       </thead>
@@ -100,6 +106,14 @@ function exibirProprietarios() {
         const cpfCell = document.createElement('td');
         cpfCell.textContent = proprietario.cpf;
         row.appendChild(cpfCell);
+
+        const categoriaCell = document.createElement('td');
+        categoriaCell.textContent = proprietario.categoria;
+        row.appendChild(categoriaCell);
+
+        const ValidadeCell = document.createElement('td');
+        ValidadeCell.textContent = proprietario.validade;
+        row.appendChild(ValidadeCell);
 
         const actionsCell = document.createElement('td');
 
@@ -158,6 +172,22 @@ function exibirVeiculos() {
         const placaCell = document.createElement('td');
         placaCell.textContent = veiculo.placa;
         row.appendChild(placaCell);
+
+        const marcaCell = document.createElement('td');
+        marcaCell.textContent = veiculo.marca;
+        row.appendChild(marcaCell);
+
+        const corCell = document.createElement('td');
+        corCell.textContent = veiculo.cor;
+        row.appendChild(corCell);
+
+        const proprietarioCell = document.createElement('td');
+        proprietarioCell.textContent = veiculo.proprietario.nome;
+        row.appendChild(proprietarioCell);
+
+        const anoCell = document.createElement('td');
+        anoCell.textContent = veiculo.ano;
+        row.appendChild(anoCell);
 
         const actionsCell = document.createElement('td');
 
