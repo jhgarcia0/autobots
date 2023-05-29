@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.view.RedirectView;
+
 import unit.caruru.autobots.Excecoes.ProprietarioNotFoundException;
 import unit.caruru.autobots.Excecoes.VeiculoNotFoundException;
 import unit.caruru.autobots.Model.Multa;
@@ -23,7 +25,7 @@ public class veiculoController {
     private ProprietarioController cnhController;
     @PostMapping("/cadastrar/veiculo")
     @ResponseBody
-    public void cadastrarVeiculo(@RequestParam(name = "placa") String placa,
+    public RedirectView cadastrarVeiculo(@RequestParam(name = "placa") String placa,
                                  @RequestParam(name = "modelo") String modelo,
                                  @RequestParam(name = "marca") String marca,
                                  @RequestParam(name = "cor") String cor,
@@ -32,6 +34,9 @@ public class veiculoController {
         Proprietario proprietario = cnhController.getCnhByCpf(cpf);
         Veiculo veiculo = new Veiculo(placa, modelo, marca, cor, proprietario, ano);
         veiculos.add(veiculo);
+        RedirectView redirectView = new RedirectView();
+        redirectView.setUrl("/create-vehicle.html");
+        return redirectView;
     }
     @GetMapping("/veiculo/{identificador}")
     public Veiculo getVeiculo(@PathVariable String identificador) throws VeiculoNotFoundException{
@@ -140,5 +145,9 @@ public class veiculoController {
         }catch(VeiculoNotFoundException err){
             return 1;
         }
+    }
+    @GetMapping("/veiculos")
+    public List<Veiculo> getAllVeiculos() {
+        return veiculos;
     }
 }

@@ -53,32 +53,29 @@
     </nav>
 
     <div class="container mt-4">
-        <h1>Cadastro de CNH</h1>
-        <p>Utilize o formulário abaixo para cadastrar a Carteira Nacional de Habilitação (CNH) de uma pessoa:</p>
+        <h1>Cadastrar Multa no Veículo</h1>
+        <p>Utilize o formulário abaixo para cadastrar uma Multa no Véiculo de uma pessoa:</p>
 
-        <form id="cadastroCNHForm" method="post" action="/cadastrar/cnh">
+        <form id="cadastroMultaForm" method="post" action="/cadastrar/multa">
             <div class="mb-3">
-                <label for="inputNome" class="form-label">Nome</label>
-                <input type="text" class="form-control" id="inputNome" name="nome" placeholder="Digite o nome">
+                <label for="inputPlaca" class="form-label">Placa do Carro</label>
+                <input type="text" class="form-control" id="inputPlaca" name="identificador" placeholder="Digite a Placa">
             </div>
             <div class="mb-3">
-                <label for="inputCPF" class="form-label">CPF</label>
-                <input type="text" class="form-control" id="inputCPF" name="cpf" placeholder="Digite o CPF">
+                <label for="inputLocal" class="form-label">Local</label>
+                <input type="text" class="form-control" id="inputLocal" name="local" placeholder="Digite o Local">
             </div>
             <div class="mb-3">
-                <label for="inputCategoria" class="form-label">Categoria</label>
-                <select class="form-select" id="inputCategoria" name="categoria">
-                    <option selected disabled>Selecione a categoria</option>
-                    <option value="A">A</option>
-                    <option value="B">B</option>
-                    <option value="C">C</option>
-                    <option value="D">D</option>
-                    <option value="E">E</option>
-                </select>
+                <label for="inputData" class="form-label">Data</label>
+                <input type="date" class="form-control" id="inputData" name="data">
             </div>
             <div class="mb-3">
-                <label for="inputValidade" class="form-label">Data de Validade</label>
-                <input type="date" class="form-control" id="inputValidade" name="validade">
+                <label for="inputValor" class="form-label">Valor</label>
+                <input type="text" class="form-control" id="inputValor" name="valor" placeholder="Digite o Valor">
+            </div>
+            <div class="mb-3">
+                <label for="inputDescricao" class="form-label">Descrição</label>
+                <input type="text" class="form-control" id="inputDescricao" name="descricao" placeholder="Digite a descrição">
             </div>
             <button type="submit" class="btn btn-primary">Cadastrar</button>
         </form>
@@ -88,4 +85,3 @@
 </body>
 
 </html>
-
