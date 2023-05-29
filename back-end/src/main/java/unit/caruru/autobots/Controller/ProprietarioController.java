@@ -1,9 +1,16 @@
 package unit.caruru.autobots.Controller;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 import unit.caruru.autobots.Excecoes.ProprietarioNotFoundException;
 import unit.caruru.autobots.Model.Proprietario;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import java.util.Map;
+
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,23 +41,28 @@ public class ProprietarioController {
         throw new ProprietarioNotFoundException("Proprietário não foi encontrado com o cpf: "+cpf);
     }
 
-    @GetMapping("/excluir/cnh/{cpf}")
-    public int excluirCnh(@PathVariable String cpf){
-        for (int i = 0; i<proprietarios.size(); i++){
-            if (proprietarios.get(i).getCpf().equals(cpf)){
-                proprietarios.remove(i);
-                return 0;
-            }
+    @PostMapping("/excluir/cnh")
+    public ResponseEntity<String> excluirCnh(@RequestBody Map<String, String> requestBody) {
+      String cpf = requestBody.get("cpf");
+    
+      for (int i = 0; i < proprietarios.size(); i++) {
+        if (proprietarios.get(i).getCpf().equals(cpf)) {
+          proprietarios.remove(i);
+          return ResponseEntity.ok().build();
         }
-        return 1;
+      }
+    
+      return ResponseEntity.notFound().build();
     }
+    
+    
+    
     @PostMapping("/editar/cnh")
     public void editarCnh(@RequestParam String identificador,
                               @RequestParam(name = "nome") String nome,
                               @RequestParam(name = "cpf") String cpf,
                               @RequestParam(name = "categoria") String categoria,
                               @RequestParam(name = "validade") String validade) {
-        excluirCnh(identificador);
         inserirCnh(nome,cpf,categoria,validade);
     }
     @GetMapping("/cnh")

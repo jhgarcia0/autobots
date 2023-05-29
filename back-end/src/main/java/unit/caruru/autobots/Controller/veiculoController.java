@@ -1,6 +1,7 @@
 package unit.caruru.autobots.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -8,6 +9,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.view.RedirectView;
+import org.springframework.web.bind.annotation.RequestBody;
+import java.util.Map;
+
 
 import unit.caruru.autobots.Excecoes.ProprietarioNotFoundException;
 import unit.caruru.autobots.Excecoes.VeiculoNotFoundException;
@@ -89,22 +93,20 @@ public class veiculoController {
         }
         throw new VeiculoNotFoundException("Veiculo não foi encontrado. Identificador: "+placa);
     }
-    @GetMapping("/excluir/veiculo/{identificador}")
-    public int excluirVeiculo(@PathVariable String identificador){
-        if(identificador.length() == 11){
-            return excluirVeiculoPorCpf(identificador);
+    @PostMapping("/excluir/{placa}")
+    public ResponseEntity<String> excluirVeiculo(@RequestBody Map<String, String> requestBody) {
+      String placa = requestBody.get("placa");
+    
+      for (int i = 0; i < veiculos.size(); i++) {
+        if (veiculos.get(i).getPlaca().equals(placa)) {
+          veiculos.remove(i);
+          return ResponseEntity.ok().build();
         }
-        return excluirVeiculoPorPlaca(identificador);
+      }
+    
+      return ResponseEntity.notFound().build();
     }
-    private int excluirVeiculoPorPlaca(String placa) {
-        for (int i = 0; i<veiculos.size(); i++){
-            if (veiculos.get(i).getPlaca().equals(placa)){
-                veiculos.remove(i);
-                return 0;
-            }
-        }
-        return 1;
-    }
+    
     private int excluirVeiculoPorCpf(String cpf) {
         for (int i = 0; i<veiculos.size(); i++){
             if (veiculos.get(i).getProprietario().getCpf().equals(cpf)){
@@ -123,7 +125,6 @@ public class veiculoController {
                               @RequestParam(name = "cpf") String cpf,
                               @RequestParam(name = "ano") int ano,
                               @RequestParam(name = "multas") List<Multa> multas) throws ProprietarioNotFoundException {
-        excluirVeiculo(identificador);
         cadastrarVeiculo(placa,modelo,marca,cor,cpf,ano);
         cadastrarMultas(identificador, multas);
 
