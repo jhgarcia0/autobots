@@ -1,6 +1,7 @@
 package unit.caruru.autobots.Controller;
 
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 import unit.caruru.autobots.Excecoes.ProprietarioNotFoundException;
 import unit.caruru.autobots.Model.Proprietario;
 
@@ -13,10 +14,14 @@ public class ProprietarioController {
     private List<Proprietario> proprietarios = new ArrayList<>();
 
     @PostMapping("/cadastrar/cnh")
-    public void inserirCnh(@RequestParam(name = "nome") String nome, @RequestParam(name = "cpf") String cpf,
+    public RedirectView inserirCnh(@RequestParam(name = "nome") String nome, @RequestParam(name = "cpf") String cpf,
                            @RequestParam(name = "categoria") String categoria, @RequestParam(name = "validade") String validade) {
         Proprietario pessoa = new Proprietario(nome, cpf, categoria, validade);
         proprietarios.add(pessoa);
+        
+        RedirectView redirectView = new RedirectView();
+        redirectView.setUrl("/create-CNH.html");
+        return redirectView;
     }
 
     @GetMapping("/cnh/{cpf}")
