@@ -132,7 +132,7 @@ public class veiculoController {
 
     @PostMapping("cadastrar/multa")
     public int cadastrarMultas(@RequestParam(name="identificador") String identificador,
-                               @RequestParam(name="multas") List<Multa> multas){
+                               @RequestBody List<Multa> multas){
         try{
             Veiculo veiculo = getVeiculo(identificador);
             List<Multa> multas_antigo = veiculo.getMultas();
