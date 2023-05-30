@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro de CNH</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css">
+    <script src="./common.js"></script>
 </head>
 
 <body>
@@ -103,22 +104,6 @@
                 });
             }
             });
-        function excluirProprietario(cpf) {
-            const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ cpf: cpf })
-            };
-            fetch('/excluir/cnh', requestOptions)
-            .then(response => {
-                if (response.ok) {
-                console.log("apagou")
-                } else {
-                console.error("Erro ao excluir proprietário");
-                }
-            })
-            .catch(error => console.error('Erro ao excluir proprietário', error));
-        }
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>

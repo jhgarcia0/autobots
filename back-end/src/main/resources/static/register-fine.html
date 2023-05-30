@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro de CNH</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css">
+    <script src="./common.js"></script>
 </head>
 
 <body>
@@ -105,30 +106,7 @@
         };
 
         console.log('Multa:', multa);
-
-        const url = `/cadastrar/multa?identificador=${identificador}`;
-
-        fetch(url, {
-            method: 'POST',
-            headers: {
-            'Content-Type': 'application/json',
-            },
-            body: JSON.stringify([multa])
-        })
-        .then(response => {
-            if (response.ok) {
-            // Sucesso no cadastro da multa
-            alert('Multa cadastrada com sucesso!');
-            // Redirecionar para outra página após o cadastro
-            window.location.href = 'register-fine.html';
-            } else {
-            // Falha no cadastro da multa
-            alert('Erro ao cadastrar multa. Veículo não encontrado.');
-            }
-        })
-        .catch(error => {
-            console.error('Erro ao cadastrar multa:', error);
-        });
+        cadastrarMulta(identificador, multa);
         });
 
     </script>

@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CRUD - CNH e Veículo</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css">
+  <script src="./common.js"></script>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -138,26 +139,6 @@ function exibirProprietarios() {
       });
     });
 }
-
-    // Função para excluir um proprietário da ArrayList
-    function excluirProprietario(cpf) {
-      const requestOptions = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ cpf: cpf })
-    };
-    fetch('/excluir/cnh', requestOptions)
-      .then(response => {
-        if (response.ok) {
-          exibirProprietarios(); // Atualizar a tabela após a exclusão
-          console.log("apagou")
-        } else {
-          console.error("Erro ao excluir proprietário");
-        }
-      })
-      .catch(error => console.error('Erro ao excluir proprietário', error));
-  }
-
   function editarCNH(cpf) {
     const url = `create-CNH.html?cpf=${cpf}`;
     window.location.href = url;
@@ -225,26 +206,9 @@ function exibirVeiculos() {
       });
     });
 }
-   // Função para excluir um Veiculo da ArrayList
-function excluirVeiculo(placa) {
-  const requestOptions = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ placa: placa })
-    };
-
-    fetch('/excluir/placa', requestOptions)
-      .then(response => {
-        if (response.ok) {
-          exibirVeiculos(); // Atualizar a tabela após a exclusão
-        } else {
-          console.error('Erro ao excluir veiculo');
-        }
-      })
-      .catch(error => console.error('Erro ao excluir veiculo', error));
-  }
 function editarVeiculo(placa) {
-  // Aqui adicionar a lógica para editar o veiculo. Faça ele ir para pagina de cadastrar com os dados dentro.
+    const url = `create-vehicle.html?placa=${placa}`;
+    window.location.href = url;
     console.log(`Editar veiculo com placa: ${placa}`);
 }
 
