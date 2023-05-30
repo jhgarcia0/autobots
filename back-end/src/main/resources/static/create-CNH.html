@@ -99,10 +99,26 @@
                     document.getElementById('inputCPF').value = cpf;
                     document.getElementById('inputCategoria').value = categoria;
                     document.getElementById('inputValidade').value = validade;
+                    excluirProprietario(cpf);
                 });
             }
             });
-
+        function excluirProprietario(cpf) {
+            const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ cpf: cpf })
+            };
+            fetch('/excluir/cnh', requestOptions)
+            .then(response => {
+                if (response.ok) {
+                console.log("apagou")
+                } else {
+                console.error("Erro ao excluir proprietário");
+                }
+            })
+            .catch(error => console.error('Erro ao excluir proprietário', error));
+        }
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>

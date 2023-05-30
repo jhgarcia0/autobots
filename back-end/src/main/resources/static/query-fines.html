@@ -50,20 +50,66 @@
 
   <div class="container mt-4">
     <h1>Consulta de Multas</h1>
-    <form id="formConsultaMultas" method="POST" action="/consulta-multas">
+    <form id="formConsultaMultas" method="POST">
       <div class="mb-3">
-        <label for="inputPlacaCpf" class="form-label">Número da Placa ou CPF do Proprietário</label>
-        <input type="text" class="form-control" id="inputPlacaCpf" name="inputPlacaCpf" placeholder="Digite o número da placa ou CPF">
+        <label for="inputPlaca" class="form-label">Número da Placa</label>
+        <input type="text" class="form-control" id="inputPlaca" name="inputPlaca" placeholder="Digite o número da placa">
       </div>
       <button type="submit" class="btn btn-primary">Pesquisar</button>
     </form>
 
     <div id="resultadoMultas" style="display: none;">
       <h2>Resultado da Pesquisa</h2>
+      <div class="list-group mt-4">
       <div id="multasList"></div>
+    </div>
     </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    document.getElementById('formConsultaMultas').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const placa = document.getElementById('inputPlaca').value;
+
+    fetch(`/multas/${placa}`)
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error('Erro na resposta do servidor');
+        }
+      })
+      .then(data => {
+        const multasList = document.getElementById('multasList');
+        multasList.innerHTML = '';
+
+        if (Array.isArray(data) && data.length === 0) {
+          multasList.innerHTML = '<div class="list-group-item">Não foram encontradas multas para essa placa.</div>';
+        } else if (Array.isArray(data)) {
+          data.forEach(multa => {
+            const multaItem = document.createElement('div');
+            multaItem.classList.add('list-group-item');
+            multaItem.innerHTML = `
+              <h5 class="mb-1">Local: ${multa.local}</h5>
+              <p class="mb-1">Data: ${multa.data}</p>
+              <p class="mb-1">Valor: ${multa.valor}</p>
+              <p class="mb-1">Descrição: ${multa.descricao}</p>
+            `;
+            multasList.appendChild(multaItem);
+          });
+        } else {
+          throw new Error('Resposta do servidor não é um array válido');
+        }
+
+        document.getElementById('resultadoMultas').style.display = 'block';
+      })
+      .catch(error => {
+        console.log('Erro:', error);
+      });
+  });
+  </script>
 </body>
 </html>
+  

@@ -73,7 +73,7 @@ public class veiculoController {
         if(identificador.length() == 11){
             return getMultasByCpf(identificador);
         }
-        return getMultasByPlaca(identificador);
+        return getMultasByPlaca1(identificador);
     }
 
     private List<Multa> getMultasByCpf(String cpf) throws VeiculoNotFoundException{
@@ -85,7 +85,7 @@ public class veiculoController {
         throw new VeiculoNotFoundException("Veiculo não foi encontrado. Identificador: "+cpf);
     }
 
-    private List<Multa> getMultasByPlaca(String placa) throws VeiculoNotFoundException {
+    private List<Multa> getMultasByPlaca1(String placa) throws VeiculoNotFoundException {
         for (int i = 0; i<veiculos.size(); i++){
             if(veiculos.get(i).getPlaca().equals(placa)){
                 return veiculos.get(i).getMultas();
@@ -136,7 +136,7 @@ public class veiculoController {
         try{
             Veiculo veiculo = getVeiculo(identificador);
             List<Multa> multas_antigo = veiculo.getMultas();
-            if (multas_antigo.isEmpty()){
+            if (multas_antigo == null){
                 veiculo.setMultas(multas);
                 return 0;
             }
@@ -152,5 +152,16 @@ public class veiculoController {
     @GetMapping("/veiculos")
     public List<Veiculo> getAllVeiculos() {
         return veiculos;
+    }
+
+    @GetMapping("/multas/placa/{identificador}")
+    private ResponseEntity<List<Multa>> getMultasByPlaca(@PathVariable String placa) throws VeiculoNotFoundException {
+    try {
+        Veiculo veiculo = getVeiculoByPlaca(placa);
+        List<Multa> multas = veiculo.getMultas();
+        return ResponseEntity.ok().body(multas);
+    } catch (VeiculoNotFoundException e) {
+        return ResponseEntity.notFound().build();
+    }
     }
 }

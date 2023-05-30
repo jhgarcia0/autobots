@@ -141,13 +141,11 @@ function exibirProprietarios() {
 
     // Função para excluir um proprietário da ArrayList
     function excluirProprietario(cpf) {
-      console.log("a1")
       const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ cpf: cpf })
     };
-    console.log('a2')
     fetch('/excluir/cnh', requestOptions)
       .then(response => {
         if (response.ok) {
@@ -161,13 +159,8 @@ function exibirProprietarios() {
   }
 
   function editarCNH(cpf) {
-    console.log("a2")
-    console.log("a3")
     const url = `create-CNH.html?cpf=${cpf}`;
-    console.log("a4")
     window.location.href = url;
-    console.log("a5")
-    excluirProprietario(cpf);
   }
 
     // Chamar a função para exibir os dados da ArrayList de proprietários/veiculos quando a página for carregada
