@@ -46,7 +46,7 @@ public class ProprietarioController {
       String cpf = requestBody.get("cpf");
     
       for (int i = 0; i < proprietarios.size(); i++) {
-        if (proprietarios.get(i).getCpf().equals(cpf)) {
+        if (Objects.equals(proprietarios.get(i).getCpf(), cpf)) {
           proprietarios.remove(i);
           return ResponseEntity.ok().build();
         }
@@ -54,7 +54,6 @@ public class ProprietarioController {
     
       return ResponseEntity.notFound().build();
     }
-    
     
     
     @PostMapping("/editar/cnh")

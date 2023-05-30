@@ -84,6 +84,27 @@
         </form>
     </div>
 
+    
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const cpf = urlParams.get('cpf');
+            if (cpf) {
+                fetch(`/cnh/${cpf}`)
+                .then(response => response.json())
+                .then(data => {
+                    const { nome, cpf, categoria, validade } = data;
+                    document.getElementById('inputNome').value = nome;
+                    document.getElementById('inputCPF').value = cpf;
+                    document.getElementById('inputCategoria').value = categoria;
+                    document.getElementById('inputValidade').value = validade;
+                });
+            }
+            });
+
+    </script>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
