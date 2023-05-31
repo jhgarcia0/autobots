@@ -35,9 +35,6 @@
                 <a class="nav-link" href="payment.html">Pagamento On-Line</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">IPVA</a>
-              </li>
-              <li class="nav-item">
                 <a class="nav-link" href="installment.html">Parcelamento</a>
               </li>
               <li class="nav-item">
@@ -244,8 +241,9 @@ function excluirVeiculo(placa) {
       .catch(error => console.error('Erro ao excluir veiculo', error));
   }
 function editarVeiculo(placa) {
-  // Aqui adicionar a lógica para editar o veiculo. Faça ele ir para pagina de cadastrar com os dados dentro.
     console.log(`Editar veiculo com placa: ${placa}`);
+    const url = `create-vehicle.html?placa=${placa}`;
+    window.location.href = url;
 }
 
   </script>
