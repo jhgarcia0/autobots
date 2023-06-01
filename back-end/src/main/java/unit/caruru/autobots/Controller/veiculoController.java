@@ -169,7 +169,7 @@ public class veiculoController {
                                                     @RequestParam(name = "inputAntigoProprietario") String antigoProprietarioCpf,
                                                     @RequestParam(name = "inputCPFProprietario") String novoProprietarioCpf)   throws ProprietarioNotFoundException, VeiculoNotFoundException {
 
-        Veiculo veiculo = getVeiculoByCpf(antigoProprietarioCpf);
+        Veiculo veiculo = getVeiculoByPlaca(placa);
         Proprietario antigoProprietario = veiculo.getProprietario();
         if (antigoProprietario == null || !antigoProprietario.getCpf().equals(antigoProprietarioCpf)) {
             throw new ProprietarioNotFoundException("Antigo proprietário não foi encontrado. CPF: " + antigoProprietarioCpf);
