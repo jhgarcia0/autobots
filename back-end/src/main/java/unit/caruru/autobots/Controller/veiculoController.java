@@ -164,47 +164,22 @@ public class veiculoController {
         return ResponseEntity.notFound().build();
     }
     }
-    // transferencia
-    // @PostMapping("/transferencia-veiculo")
-    // public ResponseEntity<String> transferirVeiculo(@RequestParam(name = "inputPlaca") String placa,
-    //                                                 @RequestParam(name = "inputAntigoProprietario") String antigoProprietarioCpf,
-    //                                                 @RequestParam(name = "inputCPFProprietario") String novoProprietarioCpf) throws ProprietarioNotFoundException, VeiculoNotFoundException {
-    //     Veiculo veiculo = null;
-    //     Proprietario antigoProprietario = null;
-    //     Proprietario novoProprietario = null;
+    @PostMapping("/transferencia-veiculo")
+    public ResponseEntity<String> transferirVeiculo(@RequestParam(name = "inputPlaca") String placa,
+                                                    @RequestParam(name = "inputAntigoProprietario") String antigoProprietarioCpf,
+                                                    @RequestParam(name = "inputCPFProprietario") String novoProprietarioCpf)   throws ProprietarioNotFoundException, VeiculoNotFoundException {
+
+        Veiculo veiculo = getVeiculoByCpf(antigoProprietarioCpf);
+        Proprietario antigoProprietario = veiculo.getProprietario();
+        if (antigoProprietario == null || !antigoProprietario.getCpf().equals(antigoProprietarioCpf)) {
+            throw new ProprietarioNotFoundException("Antigo proprietário não foi encontrado. CPF: " + antigoProprietarioCpf);
+        }
+        Proprietario novoProprietario = cnhController.getCnhByCpf(novoProprietarioCpf);
+
+        veiculo.setProprietario(novoProprietario);
     
-    //     // Procura o veículo pelo número da placa
-    //     for (Veiculo v : veiculos) {
-    //         if (v.getPlaca().equals(placa)) {
-    //             veiculo = v;
-    //             break;
-    //         }
-    //     }
-    
-    //     // Verifica se o veículo foi encontrado
-    //     if (veiculo == null) {
-    //         throw new VeiculoNotFoundException("Veiculo não foi encontrado. Placa: " + placa);
-    //     }
-    
-    //     // Obtém o antigo proprietário
-    //     antigoProprietario = veiculo.getProprietario();
-    
-    //     // Verifica se o antigo proprietário foi encontrado
-    //     if (antigoProprietario == null || !antigoProprietario.getCpf().equals(antigoProprietarioCpf)) {
-    //         throw new ProprietarioNotFoundException("Antigo proprietário não foi encontrado. CPF: " + antigoProprietarioCpf);
-    //     }
-    
-    //     // Obtém o novo proprietário
-    //     novoProprietario = cnhController.getCnhByCpf(novoProprietarioCpf);
-    
-    //     // Remove o veículo do antigo proprietário
-    //     antigoProprietario.removerVeiculo(veiculo);
-    
-    //     // Adiciona o veículo ao novo proprietário
-    //     novoProprietario.adicionarVeiculo(veiculo);
-    
-    //     return ResponseEntity.ok().build();
-    // }
+        return ResponseEntity.ok().build();
+    }
     
 
 
