@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,50 +8,50 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css">
   <script src="./common.js"></script>
 </head>
+
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
-          <a class="navbar-brand" href="#">Sistema de Gestão Veicular</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ml-auto">
-              <li class="nav-item">
-                <a class="nav-link" href="index.html">Página Inicial</a>
-              </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="cadastroDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Cadastros
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="cadastroDropdown">
-                  <li><a class="dropdown-item" href="create-CNH.html">Cadastro de CNH</a></li>
-                  <li><a class="dropdown-item" href="create-vehicle.html">Cadastro de Veículos</a></li>
-                  <li><a class="dropdown-item" href="register-fine.html">Cadastrar multa no Veículo</a></li>
-                </ul>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="query-fines.html">Consulta de Multas</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="payment.html">Pagamento On-Line</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">IPVA</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="installment.html">Parcelamento</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="transfer.html">Transferência de Veículo</a>
-              </li>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+      <a class="navbar-brand" href="#">Sistema de Gestão Veicular</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="index.html">Página Inicial</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="cadastroDropdown" role="button" data-bs-toggle="dropdown"
+              aria-expanded="false">
+              Cadastros
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="cadastroDropdown">
+              <li><a class="dropdown-item" href="create-CNH.html">Cadastro de CNH</a></li>
+              <li><a class="dropdown-item" href="create-vehicle.html">Cadastro de Veículos</a></li>
+              <li><a class="dropdown-item" href="register-fine.html">Cadastrar multa no Veículo</a></li>
             </ul>
-          </div>
-        </div>
-      </nav>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="query-fines.html">Consulta de Multas</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="payment.html">Pagamento On-Line</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="installment.html">Parcelamento</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="transfer.html">Transferência de Veículo</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
   <div class="container mt-4">
     <h1>CRUD - CNH e Veículo</h1>
-    
+
     <!-- Tabela de CNH -->
     <h2>CNH</h2>
     <table class="table">
@@ -90,130 +91,131 @@
 
   <script>
     // Função para exibir os dados da ArrayList de proprietários na tabela de CNH
-function exibirProprietarios() {
-  fetch('/cnh') // Rota para obter os dados da ArrayList de proprietários
-    .then(response => response.json())
-    .then(data => {
-      const tableBody = document.getElementById('cnhTableBody');
-      tableBody.innerHTML = ''; // Limpar a tabela antes de exibir os dados
+    function exibirProprietarios() {
+      fetch('/cnh') // Rota para obter os dados da ArrayList de proprietários
+        .then(response => response.json())
+        .then(data => {
+          const tableBody = document.getElementById('cnhTableBody');
+          tableBody.innerHTML = ''; // Limpar a tabela antes de exibir os dados
 
-      data.forEach(proprietario => {
-        const row = document.createElement('tr');
+          data.forEach(proprietario => {
+            const row = document.createElement('tr');
 
-        const nomeCell = document.createElement('td');
-        nomeCell.textContent = proprietario.nome;
-        row.appendChild(nomeCell);
+            const nomeCell = document.createElement('td');
+            nomeCell.textContent = proprietario.nome;
+            row.appendChild(nomeCell);
 
-        const cpfCell = document.createElement('td');
-        cpfCell.textContent = proprietario.cpf;
-        row.appendChild(cpfCell);
+            const cpfCell = document.createElement('td');
+            cpfCell.textContent = proprietario.cpf;
+            row.appendChild(cpfCell);
 
-        const categoriaCell = document.createElement('td');
-        categoriaCell.textContent = proprietario.categoria;
-        row.appendChild(categoriaCell);
+            const categoriaCell = document.createElement('td');
+            categoriaCell.textContent = proprietario.categoria;
+            row.appendChild(categoriaCell);
 
-        const ValidadeCell = document.createElement('td');
-        ValidadeCell.textContent = proprietario.validade;
-        row.appendChild(ValidadeCell);
+            const ValidadeCell = document.createElement('td');
+            ValidadeCell.textContent = proprietario.validade;
+            row.appendChild(ValidadeCell);
 
-        const actionsCell = document.createElement('td');
+            const actionsCell = document.createElement('td');
 
-        // Botão Editar
-        const editButton = document.createElement('button');
-        editButton.textContent = 'Editar';
-        editButton.classList.add('btn', 'btn-primary', 'me-2');
-        editButton.addEventListener('click', () => editarCNH(proprietario.cpf));
-        actionsCell.appendChild(editButton);
+            // Botão Editar
+            const editButton = document.createElement('button');
+            editButton.textContent = 'Editar';
+            editButton.classList.add('btn', 'btn-primary', 'me-2');
+            editButton.addEventListener('click', () => editarCNH(proprietario.cpf));
+            actionsCell.appendChild(editButton);
 
-        // Botão Excluir
-        const deleteButton = document.createElement('button');
-        deleteButton.textContent = 'Excluir';
-        deleteButton.classList.add('btn', 'btn-danger');
-        deleteButton.addEventListener('click', () => excluirProprietario(proprietario.cpf));
-        deleteButton.setAttribute('data-cpf', proprietario.cpf); 
-        actionsCell.appendChild(deleteButton);
+            // Botão Excluir
+            const deleteButton = document.createElement('button');
+            deleteButton.textContent = 'Excluir';
+            deleteButton.classList.add('btn', 'btn-danger');
+            deleteButton.addEventListener('click', () => excluirProprietario(proprietario.cpf));
+            deleteButton.setAttribute('data-cpf', proprietario.cpf);
+            actionsCell.appendChild(deleteButton);
 
-        row.appendChild(actionsCell);
+            row.appendChild(actionsCell);
 
-        tableBody.appendChild(row);
-      });
-    });
-}
-  function editarCNH(cpf) {
-    const url = `create-CNH.html?cpf=${cpf}`;
-    window.location.href = url;
-  }
+            tableBody.appendChild(row);
+          });
+        });
+    }
+    function editarCNH(cpf) {
+      const url = `create-CNH.html?cpf=${cpf}`;
+      window.location.href = url;
+    }
 
     // Chamar a função para exibir os dados da ArrayList de proprietários/veiculos quando a página for carregada
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
       exibirProprietarios();
       exibirVeiculos();
     });
-function exibirVeiculos() {
-  fetch('/veiculos') // Rota para obter os dados da ArrayList de veiculo
-    .then(response => response.json())
-    .then(data => {
-      const tableBody = document.getElementById('vehicleTableBody');
-      tableBody.innerHTML = ''; // Limpar a tabela antes de exibir os dados
+    function exibirVeiculos() {
+      fetch('/veiculos') // Rota para obter os dados da ArrayList de veiculo
+        .then(response => response.json())
+        .then(data => {
+          const tableBody = document.getElementById('vehicleTableBody');
+          tableBody.innerHTML = ''; // Limpar a tabela antes de exibir os dados
 
-      data.forEach(veiculo => {
-        const row = document.createElement('tr');
+          data.forEach(veiculo => {
+            const row = document.createElement('tr');
 
-        const modeloCell = document.createElement('td');
-        modeloCell.textContent = veiculo.modelo;
-        row.appendChild(modeloCell);
+            const modeloCell = document.createElement('td');
+            modeloCell.textContent = veiculo.modelo;
+            row.appendChild(modeloCell);
 
-        const placaCell = document.createElement('td');
-        placaCell.textContent = veiculo.placa;
-        row.appendChild(placaCell);
+            const placaCell = document.createElement('td');
+            placaCell.textContent = veiculo.placa;
+            row.appendChild(placaCell);
 
-        const marcaCell = document.createElement('td');
-        marcaCell.textContent = veiculo.marca;
-        row.appendChild(marcaCell);
+            const marcaCell = document.createElement('td');
+            marcaCell.textContent = veiculo.marca;
+            row.appendChild(marcaCell);
 
-        const corCell = document.createElement('td');
-        corCell.textContent = veiculo.cor;
-        row.appendChild(corCell);
+            const corCell = document.createElement('td');
+            corCell.textContent = veiculo.cor;
+            row.appendChild(corCell);
 
-        const proprietarioCell = document.createElement('td');
-        proprietarioCell.textContent = veiculo.proprietario.nome;
-        row.appendChild(proprietarioCell);
+            const proprietarioCell = document.createElement('td');
+            proprietarioCell.textContent = veiculo.proprietario.nome;
+            row.appendChild(proprietarioCell);
 
-        const anoCell = document.createElement('td');
-        anoCell.textContent = veiculo.ano;
-        row.appendChild(anoCell);
+            const anoCell = document.createElement('td');
+            anoCell.textContent = veiculo.ano;
+            row.appendChild(anoCell);
 
-        const actionsCell = document.createElement('td');
+            const actionsCell = document.createElement('td');
 
-        // Botão Editar
-        const editButton = document.createElement('button');
-        editButton.textContent = 'Editar';
-        editButton.classList.add('btn', 'btn-primary', 'me-2');
-        editButton.addEventListener('click', () => editarVeiculo(veiculo.placa));
-        actionsCell.appendChild(editButton);
+            // Botão Editar
+            const editButton = document.createElement('button');
+            editButton.textContent = 'Editar';
+            editButton.classList.add('btn', 'btn-primary', 'me-2');
+            editButton.addEventListener('click', () => editarVeiculo(veiculo.placa));
+            actionsCell.appendChild(editButton);
 
-        // Botão Excluir
-        const deleteButton = document.createElement('button');
-        deleteButton.textContent = 'Excluir';
-        deleteButton.classList.add('btn', 'btn-danger');
-        deleteButton.addEventListener('click', () => excluirVeiculo(veiculo.placa));
-        deleteButton.setAttribute('data-placa', veiculo.placa); // Adicione essa linha para armazenar o CPF como um atributo personalizado
-        actionsCell.appendChild(deleteButton);
+            // Botão Excluir
+            const deleteButton = document.createElement('button');
+            deleteButton.textContent = 'Excluir';
+            deleteButton.classList.add('btn', 'btn-danger');
+            deleteButton.addEventListener('click', () => excluirVeiculo(veiculo.placa));
+            deleteButton.setAttribute('data-placa', veiculo.placa); // Adicione essa linha para armazenar o CPF como um atributo personalizado
+            actionsCell.appendChild(deleteButton);
 
-        row.appendChild(actionsCell);
+            row.appendChild(actionsCell);
 
-        tableBody.appendChild(row);
-      });
-    });
-}
-function editarVeiculo(placa) {
-    const url = `create-vehicle.html?placa=${placa}`;
-    window.location.href = url;
-    console.log(`Editar veiculo com placa: ${placa}`);
-}
+            tableBody.appendChild(row);
+          });
+        });
+    }
+    function editarVeiculo(placa) {
+      console.log(`Editar veiculo com placa: ${placa}`);
+      const url = `create-vehicle.html?placa=${placa}`;
+      window.location.href = url;
+    }
 
   </script>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

@@ -12,7 +12,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import org.springframework.web.bind.annotation.RequestBody;
 import java.util.Map;
 
-
+import unit.caruru.autobots.Controller.ProprietarioController;
 import unit.caruru.autobots.Excecoes.ProprietarioNotFoundException;
 import unit.caruru.autobots.Excecoes.VeiculoNotFoundException;
 import unit.caruru.autobots.Model.Multa;
@@ -155,4 +155,36 @@ public class veiculoController {
     public List<Veiculo> getAllVeiculos() {
         return veiculos;
     }
+
+    @GetMapping("/multas/placa/{identificador}")
+    private ResponseEntity<List<Multa>> getMultasByPlaca(@PathVariable String placa) throws VeiculoNotFoundException {
+    try {
+        Veiculo veiculo = getVeiculoByPlaca(placa);
+        List<Multa> multas = veiculo.getMultas();
+        return ResponseEntity.ok().body(multas);
+    } catch (VeiculoNotFoundException e) {
+        return ResponseEntity.notFound().build();
+    }
+    }
+    @PostMapping("/transferencia-veiculo")
+    public ResponseEntity<String> transferirVeiculo(@RequestParam(name = "inputPlaca") String placa,
+                                                    @RequestParam(name = "inputAntigoProprietario") String antigoProprietarioCpf,
+                                                    @RequestParam(name = "inputCPFProprietario") String novoProprietarioCpf)   throws ProprietarioNotFoundException, VeiculoNotFoundException {
+
+        Veiculo veiculo = getVeiculoByPlaca(placa);
+        Proprietario antigoProprietario = veiculo.getProprietario();
+        if (antigoProprietario == null || !antigoProprietario.getCpf().equals(antigoProprietarioCpf)) {
+            throw new ProprietarioNotFoundException("Antigo proprietário não foi encontrado. CPF: " + antigoProprietarioCpf);
+        }
+        Proprietario novoProprietario = cnhController.getCnhByCpf(novoProprietarioCpf);
+
+        veiculo.setProprietario(novoProprietario);
+    
+        return ResponseEntity.ok().build();
+    }
+    
+
+
+
+    
 }

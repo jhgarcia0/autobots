@@ -13,7 +13,8 @@
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
       <a class="navbar-brand" href="crud.html">Sistema de Gestão Veicular</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
@@ -22,7 +23,8 @@
             <a class="nav-link" href="index.html">Página Inicial</a>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="cadastroDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <a class="nav-link dropdown-toggle" href="#" id="cadastroDropdown" role="button" data-bs-toggle="dropdown"
+              aria-expanded="false">
               Cadastros
             </a>
             <ul class="dropdown-menu" aria-labelledby="cadastroDropdown">
@@ -36,9 +38,6 @@
           </li>
           <li class="nav-item">
             <a class="nav-link" href="payment.html">Pagamento On-Line</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">IPVA</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="installment.html">Parcelamento</a>
@@ -76,76 +75,49 @@
       </div>
       <div class="mb-3">
         <label for="inputProprietario" class="form-label">CPF do Proprietário</label>
-        <input type="text" class="form-control" id="inputProprietario" name="cpf" placeholder="Digite o CPF do proprietário">
+        <input type="text" class="form-control" id="inputCpf" name="cpf" placeholder="Digite o CPF do proprietário">
       </div>
-      </form>
-      <button type="submit" onclick=cadastrarEditarVeiculo() class="btn btn-primary">Cadastrar</button>
+      <button type="submit" class="btn btn-primary">Cadastrar</button>
     </form>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-
   <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const placa = urlParams.get('placa');
-            if (placa) {
-                fetch(`/veiculo/${placa}`)
-                .then(response => response.json())
-                .then(data => {
-                    const { placa, modelo, marca, cor, proprietario, ano} = data;
-                    document.getElementById('inputPlaca').value = placa;
-                    document.getElementById('inputModelo').value = modelo;
-                    document.getElementById('inputMarca').value = marca;
-                    document.getElementById('inputCor').value = cor;
-                    document.getElementById('inputProprietario').value = proprietario.cpf;
-                    document.getElementById('inputAno').value = ano;
-                });
-            }
-        });
-        function cadastrarEditarVeiculo(){
-          const urlParams = new URLSearchParams(window.location.search);
-          const placa = urlParams.get('placa');
-          if(placa){
-            editarVeiculo(document.getElementById('inputPlaca').value,
-                          document.getElementById('inputModelo').value,
-                          document.getElementById('inputMarca').value,
-                          document.getElementById('inputCor').value,
-                          document.getElementById('inputProprietario').value,
-                          document.getElementById('inputAno').value,
-                          getMultas(document.getElementById('inputPlaca').value));
-          }else{
-            cadastrarVeiculo(document.getElementById('inputPlaca').value,
-                             document.getElementById('inputModelo').value,
-                             document.getElementById('inputMarca').value,
-                             document.getElementById('inputCor').value,
-                             document.getElementById('inputProprietario').value,
-                             document.getElementById('inputAno').value);
+
+    document.addEventListener('DOMContentLoaded', function () {
+      const urlParams = new URLSearchParams(window.location.search);
+      const placaantiga = urlParams.get('placa');
+      if (placaantiga) {
+        fetch(`/veiculo/${placaantiga}`)
+          .then(response => response.json())
+          .then(data => {
+            const { modelo, marca, ano, cor, placa, proprietario } = data;
+            document.getElementById('inputModelo').value = modelo;
+            document.getElementById('inputMarca').value = marca;
+            document.getElementById('inputAno').value = ano;
+            document.getElementById('inputCor').value = cor;
+            document.getElementById('inputPlaca').value = placa;
+            document.getElementById('inputCpf').value = proprietario.cpf;
+            excluirVeiculo(placaantiga);
+          });
+      }
+    });
+    function excluirVeiculo(placa) {
+      const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ placa: placa })
+      };
+      fetch('/excluir/placa', requestOptions)
+        .then(response => {
+          if (response.ok) {
+            console.log("apagou veiculo")
+          } else {
+            console.error("Erro ao excluir veiculo");
           }
-        }
-        function cadastrarVeiculo(placa, modelo, marca, cor, cpf, ano){
-          const requestOptions = {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ placa: placa, modelo: modelo, marca: marca,
-                                 cor: cor, cpf: cpf, ano: ano})
-          };
-          fetch('/cadastrar/veiculo', requestOptions)
-          .then(response => {})
-          .catch(error => console.error('Erro ao editar veiculo', error));
-      }
-        function editarVeiculo(placa, modelo, marca, cor, cpf, ano, multas = null) {
-          const requestOptions = {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ placa: placa, modelo: modelo, marca: marca,
-                                 cor: cor, cpf: cpf, ano: ano,
-                                multas:multas})
-          };
-          fetch('/editar/veiculo', requestOptions)
-          .then(response => {})
-          .catch(error => console.error('Erro ao editar veiculo', error));
-      }
+        })
+        .catch(error => console.error('Erro ao excluir veiculo', error));
+    }
   </script>
 </body>
 

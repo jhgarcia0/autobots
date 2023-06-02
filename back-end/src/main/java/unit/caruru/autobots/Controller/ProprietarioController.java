@@ -68,5 +68,34 @@ public class ProprietarioController {
     public List<Proprietario> getAllCnh() {
         return proprietarios;
     }
-}
+    // fazer o adicionar e remover
+    // @PostMapping("/adicionar-veiculo")
+    // public ResponseEntity<String> adicionarVeiculo(@RequestParam String cpfProprietario,
+    //                                                @RequestParam String placaVeiculo) {
+    //     Proprietario proprietario = getCnhByCpf(cpfProprietario);
+    //     veiculoController veiculo = veiculoController.getVeiculo();
 
+    //     if (proprietario != null && veiculo != null) {
+    //         proprietario.adicionarVeiculo(veiculo);
+    //         return ResponseEntity.ok().build();
+    //     } else {
+    //         return ResponseEntity.notFound().build();
+    //     }
+    // }
+
+    // @PostMapping("/remover-veiculo")
+    // public ResponseEntity<String> removerVeiculo(@RequestParam String cpfProprietario,
+    //                                              @RequestParam String placaVeiculo) {
+    //     Proprietario proprietario = getCnhByCpf(cpfProprietario);
+    //     Veiculo veiculo = getVeiculoByPlaca(placaVeiculo);
+
+    //     if (proprietario != null && veiculo != null) {
+    //         proprietario.removerVeiculo(veiculo);
+    //         return ResponseEntity.ok().build();
+    //     } else {
+    //         return ResponseEntity.notFound().build();
+    //     }
+    // }
+//}
+
+}
