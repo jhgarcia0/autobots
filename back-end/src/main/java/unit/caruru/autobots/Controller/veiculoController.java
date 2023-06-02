@@ -167,9 +167,9 @@ public class veiculoController {
     }
     }
     @PostMapping("/transferencia-veiculo")
-    public ResponseEntity<String> transferirVeiculo(@RequestParam(name = "inputPlaca") String placa,
-                                                    @RequestParam(name = "inputAntigoProprietario") String antigoProprietarioCpf,
-                                                    @RequestParam(name = "inputCPFProprietario") String novoProprietarioCpf)   throws ProprietarioNotFoundException, VeiculoNotFoundException {
+    public RedirectView transferirVeiculo(@RequestParam(name = "inputPlaca") String placa,
+                                          @RequestParam(name = "inputAntigoProprietario") String antigoProprietarioCpf,
+                                          @RequestParam(name = "inputCPFProprietario") String novoProprietarioCpf) throws ProprietarioNotFoundException, VeiculoNotFoundException {
 
         Veiculo veiculo = getVeiculoByPlaca(placa);
         Proprietario antigoProprietario = veiculo.getProprietario();
@@ -179,12 +179,11 @@ public class veiculoController {
         Proprietario novoProprietario = cnhController.getCnhByCpf(novoProprietarioCpf);
 
         veiculo.setProprietario(novoProprietario);
+
+        return new RedirectView("/transfer.html");
     
-        return ResponseEntity.ok().build();
+
     }
-    
-
-
 
     
 }
